@@ -1,11 +1,21 @@
 import React from "react";
 import "./styles.css";
-import { Card } from "../../components/Card";
+import { Card, CardProps } from "../../components/Card";
+
+type ProfileResponse = {
+  name: string;
+  avatar_url: string;
+}
+
+type User = {
+  name: string;
+  avatar: string;
+}
 
 function Home() {
   const [studentName, setStudentName] = React.useState("");
-  const [students, setStudents] = React.useState([]);
-  const [user, setUser] = React.useState({ name: "", avatar: "" });
+  const [students, setStudents] = React.useState<CardProps[]>([]);
+  const [user, setUser] = React.useState<User>({ name: "", avatar: "" });
 
   function handleAddStudent() {
     const newStudent = {
@@ -24,7 +34,7 @@ function Home() {
       const response = await fetch(
         "https://api.github.com/users/lucasminatelli"
       );
-      const data = await response.json();
+      const data = await response.json() as ProfileResponse;
       setUser({
         name: data.name,
         avatar: data.avatar_url,
